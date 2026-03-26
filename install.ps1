@@ -159,7 +159,7 @@ Write-OK "Dependencies installed"
 # ── Build ────────────────────────────────────────────────────
 Write-Step "Building Vencord with plugin (may take ~30 seconds)..."
 pnpm build
-if ($LASTEXITCODE -ne 0) { Write-Err "Build failed — check output above" }
+if ($LASTEXITCODE -ne 0) { Write-Err "Build failed - check output above" }
 Write-OK "Build complete"
 
 # ── Backup ───────────────────────────────────────────────────
@@ -193,7 +193,7 @@ try {
     $cfg | ConvertTo-Json -Depth 10 | Set-Content $VENCORD_CFG -Encoding UTF8
     Write-OK "Plugin enabled, autoUpdate disabled"
 } catch {
-    Write-Warn "Could not auto-patch settings — enable StyleTranslate manually in Vencord settings"
+    Write-Warn "Could not auto-patch settings - enable StyleTranslate manually in Vencord settings"
 }
 
 # ── Done ─────────────────────────────────────────────────────

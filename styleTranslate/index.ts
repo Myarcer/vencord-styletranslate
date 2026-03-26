@@ -20,17 +20,27 @@ const Native = VencordNative.pluginHelpers.StyleTranslate as {
 // ── All styles (superset — AT has more, Claude covers all with prompts) ────
 // Order: most fun first
 const ALL_STYLES: { name: string; displayName: string }[] = [
-    { name: "pirate",        displayName: "Pirate" },
-    { name: "shakespeare",   displayName: "Shakespeare" },
-    { name: "yoda",          displayName: "Yoda" },
-    { name: "gollum",        displayName: "Gollum" },
-    { name: "uwu",           displayName: "UwU" },
-    { name: "caveman",       displayName: "Caveman" },
-    { name: "medieval",      displayName: "Medieval English" },
-    { name: "old-english",   displayName: "Old English" },
-    { name: "formal",        displayName: "Formal English" },
-    { name: "gen-z",         displayName: "Gen Z" },
-    { name: "valley-girl",   displayName: "Valley Girl" },
+    // ── Standard ─────────────────────────────────────────────
+    { name: "pirate",              displayName: "Pirate" },
+    { name: "shakespeare",         displayName: "Shakespeare" },
+    { name: "yoda",                displayName: "Yoda" },
+    { name: "gollum",              displayName: "Gollum" },
+    { name: "uwu",                 displayName: "UwU" },
+    { name: "caveman",             displayName: "Caveman" },
+    { name: "medieval",            displayName: "Medieval English" },
+    { name: "old-english",         displayName: "Old English" },
+    { name: "formal",              displayName: "Formal English" },
+    { name: "gen-z",               displayName: "Gen Z" },
+    { name: "valley-girl",         displayName: "Valley Girl" },
+    // ── Verbose ──────────────────────────────────────────────
+    { name: "verbose-posh",        displayName: "Verbose: Posh" },
+    { name: "verbose-shakespeare", displayName: "Verbose: Shakespeare" },
+    { name: "verbose-medieval",    displayName: "Verbose: Medieval" },
+    { name: "verbose-english",     displayName: "Verbose: English" },
+    { name: "verbose-fancy",       displayName: "Verbose: Fancy English" },
+    { name: "verbose-mega",        displayName: "Verbose: MEGA" },
+    { name: "verbose-5yo",         displayName: "Verbose: 5 Year Old" },
+    { name: "verbose-stupendous",  displayName: "Verbose: Stupendously" },
 ];
 
 // ── Claude prompts for every style ────────────────────────────
@@ -72,6 +82,39 @@ const CLAUDE_PROMPTS: Record<string, string> = {
     "valley-girl":
         "Rewrite the following text as a classic Valley Girl would say it. " +
         "Use 'like', 'oh my god', 'totally', 'whatever', 'as if'. " +
+        "Output ONLY the translated text, nothing else.",
+    // ── Verbose styles ───────────────────────────────────────
+    "verbose-posh":
+        "Rewrite the following text in an overly verbose, extravagantly posh British English style. " +
+        "Use unnecessarily long words, excessive politeness, and elaborate circumlocutions. " +
+        "Make it absurdly long-winded. Output ONLY the translated text, nothing else.",
+    "verbose-shakespeare":
+        "Rewrite the following text in an extremely verbose, old-school Shakespearean style. " +
+        "Use thee/thou/thy, archaic verb forms, long flowery soliloquies, and excessive metaphors. " +
+        "Make it dramatically over-the-top long. Output ONLY the translated text, nothing else.",
+    "verbose-medieval":
+        "Rewrite the following text in a verbose medieval style with excessive formal address, " +
+        "lengthy proclamations, and over-elaborate knightly language. " +
+        "Output ONLY the translated text, nothing else.",
+    "verbose-english":
+        "Rewrite the following text in an overly verbose English style. " +
+        "Use far more words than necessary, add excessive qualifiers, tangents, and unnecessary elaboration. " +
+        "Output ONLY the translated text, nothing else.",
+    "verbose-fancy":
+        "Rewrite the following text in an excessively fancy, verbose English style. " +
+        "Use the most elaborate vocabulary possible, lengthy sentences, and superfluous detail. " +
+        "Output ONLY the translated text, nothing else.",
+    "verbose-mega":
+        "Rewrite the following text in the most extremely, absurdly, hyper-mega-ultra-verbose way imaginable. " +
+        "Use every possible synonym, add excessive explanations, tangents, and make it as long as humanly possible. " +
+        "Output ONLY the translated text, nothing else.",
+    "verbose-5yo":
+        "Rewrite the following text as an extremely verbose 5-year-old would say it — " +
+        "rambling, going off on tangents, repeating things, adding 'and then', 'and also', 'because'. " +
+        "Output ONLY the translated text, nothing else.",
+    "verbose-stupendous":
+        "Rewrite the following text in a stupendously, breathtakingly verbose manner. " +
+        "Every simple concept must be explained at extraordinary length with grandiose vocabulary. " +
         "Output ONLY the translated text, nothing else.",
 };
 

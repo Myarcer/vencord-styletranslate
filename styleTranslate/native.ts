@@ -24,18 +24,28 @@ const log = (msg: string) => {
 // ── AnythingTranslate scraper ──────────────────────────────────
 
 // Post IDs scraped from anythingtranslate.com (WP post IDs per translator)
-const AT_TRANSLATORS: Record<string, { postId: number; label: string }> = {
-    pirate:      { postId: 17189,  label: "Pirate" },
-    shakespeare: { postId: 19793,  label: "Shakespeare" },
-    gollum:      { postId: 42122,  label: "Gollum" },
-    yoda:        { postId: 260645, label: "Yoda" },
-    uwu:         { postId: 16453,  label: "UwU" },
-    "old-english":    { postId: 337,   label: "Old English" },
-    medieval:    { postId: 17757,  label: "Medieval English" },
-    formal:      { postId: 16459,  label: "Formal English" },
-    "gen-z":     { postId: 16308,  label: "Gen Z" },
-    "valley-girl": { postId: 21686, label: "Valley Girl" },
-    caveman:     { postId: 17190,  label: "Caveman" },
+const AT_TRANSLATORS: Record<string, { postId: number; slug: string }> = {
+    // ── Standard styles ──────────────────────────────────────
+    pirate:            { postId: 17189,  slug: "pirate" },
+    shakespeare:       { postId: 19793,  slug: "shakespeare" },
+    gollum:            { postId: 42122,  slug: "gollum" },
+    yoda:              { postId: 260645, slug: "yoda-star-wars" },
+    uwu:               { postId: 16453,  slug: "uwu" },
+    "old-english":     { postId: 337,    slug: "old-english" },
+    medieval:          { postId: 17757,  slug: "medieval-english" },
+    formal:            { postId: 16459,  slug: "formal-english" },
+    "gen-z":           { postId: 16308,  slug: "gen-z" },
+    "valley-girl":     { postId: 21686,  slug: "valley-girl" },
+    caveman:           { postId: 17190,  slug: "caveman" },
+    // ── Verbose styles ───────────────────────────────────────
+    "verbose-posh":        { postId: 20657,  slug: "overly-verbose-posh" },
+    "verbose-shakespeare": { postId: 266043, slug: "oldschool-shakespearian-verbose" },
+    "verbose-medieval":    { postId: 131985, slug: "verbose-medieval" },
+    "verbose-english":     { postId: 203740, slug: "verbose-english" },
+    "verbose-fancy":       { postId: 182893, slug: "fancy-verbose-english" },
+    "verbose-mega":        { postId: 256121, slug: "super-ultra-hyper-mega-verbose" },
+    "verbose-5yo":         { postId: 181109, slug: "verbose-5yo" },
+    "verbose-stupendous":  { postId: 124332, slug: "stupendously-verbose" },
 };
 
 function httpsGet(url: string): Promise<string> {
@@ -70,8 +80,7 @@ function httpsPost(url: string, body: string, headers: Record<string, string>): 
 
 async function fetchNonce(slug: string): Promise<string> {
     const html = await httpsGet(`https://anythingtranslate.com/translators/${slug}-translator/`);
-    const match = html.match(/translator_nonce["\s]*:?["\s]*value[="\s]*["']([a-f0-9]+)["']/)
-        ?? html.match(/name="translator_nonce"\s+value="([a-f0-9]+)"/)
+    const match = html.match(/name="translator_nonce"\s+value="([a-f0-9]+)"/)
         ?? html.match(/"translator_nonce"\s*:\s*"([a-f0-9]+)"/);
     if (!match) throw new Error("Could not find nonce on anythingtranslate.com");
     return match[1];
@@ -87,7 +96,7 @@ export async function translateWithAnythingTranslate(
 
     log(`AT START style=${style} postId=${translator.postId}`);
 
-    const nonce = await fetchNonce(style === "old-english" ? "old-english" : style === "gen-z" ? "gen-z" : style === "valley-girl" ? "valley-girl" : style);
+    const nonce = await fetchNonce(translator.slug);
     log(`AT nonce=${nonce}`);
 
     // Build multipart/form-data body manually
@@ -111,7 +120,7 @@ export async function translateWithAnythingTranslate(
         {
             "Content-Type": `multipart/form-data; boundary=${boundary}`,
             "User-Agent": "Mozilla/5.0",
-            "Referer": `https://anythingtranslate.com/translators/${style}-translator/`,
+            "Referer": `https://anythingtranslate.com/translators/${translator.slug}-translator/`,
         }
     );
 
